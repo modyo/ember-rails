@@ -1,5 +1,5 @@
-// Version: v1.0.pre-156-gddcc580
-// Last commit: ddcc580 (2012-09-21 09:52:25 -0700)
+// Version: v1.0.pre-151-gb993a76
+// Last commit: b993a76 (2012-09-18 21:53:28 -0700)
 
 
 (function() {
@@ -140,8 +140,8 @@ window.ember_deprecateFunc  = Ember.deprecateFunc("ember_deprecateFunc is deprec
 
 })();
 
-// Version: v1.0.pre-156-gddcc580
-// Last commit: ddcc580 (2012-09-21 09:52:25 -0700)
+// Version: v1.0.pre-151-gb993a76
+// Last commit: b993a76 (2012-09-18 21:53:28 -0700)
 
 
 (function() {
@@ -5440,7 +5440,7 @@ Ember.none = function(obj) {
       Ember.empty(undefined);      => true
       Ember.empty('');             => true
       Ember.empty([]);             => true
-      Ember.empty('tobias fünke'); => false
+      Ember.empty('tobias fÃ¼nke'); => false
       Ember.empty([0,1,2]);        => false
 
   @method empty
@@ -7033,7 +7033,7 @@ Ember.Array = Ember.Mixin.create(Ember.Enumerable, /** @scope Ember.Array.protot
   /**
     This returns the objects at the specified indexes, using `objectAt`.
 
-        var arr = ['a', 'b', 'c', 'd'];
+        var arr =Â ['a', 'b', 'c', 'd'];
         arr.objectsAt([0, 1, 2]) => ["a", "b", "c"]
         arr.objectsAt([2, 3, 4]) => ["c", "d", undefined]
 
@@ -12186,10 +12186,8 @@ Ember.ControllerMixin.reopen({
     }
 
     outletName = outletName || 'view';
-    
-    Ember.assert("The viewClass is either missing or the one provided did not resolve to a view", !!name || (!name && !!viewClass));
-    
-    Ember.assert("You must supply a name or a viewClass to connectOutlet, but not both", (!!name && !viewClass && !controller) || (!name && !!viewClass));
+
+    Ember.assert("You must supply a name or a view class to connectOutlet, but not both", (!!name && !viewClass && !controller) || (!name && !!viewClass));
 
     if (name) {
       var namespace = get(this, 'namespace'),
@@ -12973,8 +12971,8 @@ Ember.View = Ember.Object.extend(Ember.Evented,
 
     The context of a view is looked up as follows:
 
-    1. Supplied context (usually by Handlebars)
-    2. Specified controller
+    1. Specified controller
+    2. Supplied context (usually by Handlebars)
     3. `parentView`'s context (for a child of a ContainerView)
 
     The code in Handlebars that overrides the `_context` property first
@@ -18510,7 +18508,7 @@ Ember Routing
 (function() {
 // ==========================================================================
 // Project:   metamorph
-// Copyright: ©2011 My Company Inc. All rights reserved.
+// Copyright: Â©2011 My Company Inc. All rights reserved.
 // ==========================================================================
 
 (function(window) {
@@ -18953,12 +18951,7 @@ Ember.Handlebars.helpers = objectCreate(Handlebars.helpers);
   @constructor
 */
 Ember.Handlebars.Compiler = function() {};
-
-// Handlebars.Compiler doesn't exist in runtime-only
-if (Handlebars.Compiler) {
-  Ember.Handlebars.Compiler.prototype = objectCreate(Handlebars.Compiler.prototype);
-}
-
+Ember.Handlebars.Compiler.prototype = objectCreate(Handlebars.Compiler.prototype);
 Ember.Handlebars.Compiler.prototype.compiler = Ember.Handlebars.Compiler;
 
 /**
@@ -18968,14 +18961,8 @@ Ember.Handlebars.Compiler.prototype.compiler = Ember.Handlebars.Compiler;
   @constructor
 */
 Ember.Handlebars.JavaScriptCompiler = function() {};
-
-// Handlebars.JavaScriptCompiler doesn't exist in runtime-only
-if (Handlebars.JavaScriptCompiler) {
-  Ember.Handlebars.JavaScriptCompiler.prototype = objectCreate(Handlebars.JavaScriptCompiler.prototype);
-  Ember.Handlebars.JavaScriptCompiler.prototype.compiler = Ember.Handlebars.JavaScriptCompiler;
-}
-
-
+Ember.Handlebars.JavaScriptCompiler.prototype = objectCreate(Handlebars.JavaScriptCompiler.prototype);
+Ember.Handlebars.JavaScriptCompiler.prototype.compiler = Ember.Handlebars.JavaScriptCompiler;
 Ember.Handlebars.JavaScriptCompiler.prototype.namespace = "Ember.Handlebars";
 
 
@@ -19055,27 +19042,24 @@ Ember.Handlebars.precompile = function(string) {
   return new Ember.Handlebars.JavaScriptCompiler().compile(environment, options, undefined, true);
 };
 
-// We don't support this for Handlebars runtime-only
-if (Handlebars.compile) {
-  /**
-    The entry point for Ember Handlebars. This replaces the default Handlebars.compile and turns on
-    template-local data and String parameters.
+/**
+  The entry point for Ember Handlebars. This replaces the default Handlebars.compile and turns on
+  template-local data and String parameters.
 
-    @method compile
-    @for Ember.Handlebars
-    @static
-    @param {String} string The template to compile
-    @return {Function}
-  */
-  Ember.Handlebars.compile = function(string) {
-    var ast = Handlebars.parse(string);
-    var options = { data: true, stringParams: true };
-    var environment = new Ember.Handlebars.Compiler().compile(ast, options);
-    var templateSpec = new Ember.Handlebars.JavaScriptCompiler().compile(environment, options, undefined, true);
+  @method compile
+  @for Ember.Handlebars
+  @static
+  @param {String} string The template to compile
+  @return {Function}
+*/
+Ember.Handlebars.compile = function(string) {
+  var ast = Handlebars.parse(string);
+  var options = { data: true, stringParams: true };
+  var environment = new Ember.Handlebars.Compiler().compile(ast, options);
+  var templateSpec = new Ember.Handlebars.JavaScriptCompiler().compile(environment, options, undefined, true);
 
-    return Handlebars.template(templateSpec);
-  };
-}
+  return Handlebars.template(templateSpec);
+};
 
 /**
   @private
@@ -22336,8 +22320,8 @@ Ember Handlebars
 
 })();
 
-// Version: v1.0.pre-156-gddcc580
-// Last commit: ddcc580 (2012-09-21 09:52:25 -0700)
+// Version: v1.0.pre-151-gb993a76
+// Last commit: b993a76 (2012-09-18 21:53:28 -0700)
 
 
 (function() {
@@ -22348,5 +22332,4 @@ Ember
 */
 
 })();
-
 
