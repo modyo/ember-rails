@@ -1,5 +1,7 @@
+## 0.7.2 (September 21, 2012)
+- Update `ember.js` to the latest in master
 ## 0.7.1 (Agust 23, 2012)
-- Update to the latest ember.js 1.0-pre
+- Update to the latest `ember.js 1.0-pre`
 - Fixed undefined check of `elem`
 ## 0.5.0 (Mai 25, 2012)
 
