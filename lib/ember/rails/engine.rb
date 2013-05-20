@@ -10,13 +10,22 @@ module Ember
       config.handlebars.templates_root = "templates"
       config.handlebars.templates_path_separator = '/'
 
-      initializer "ember_rails.setup", :group => :all do |app|
-        require 'ember/filters/slim' if defined? Slim
-        require 'ember/filters/haml' if defined? Haml
+      initializer "ember_rails.setup", :after => :append_assets_path, :group => :all do |app|
+        sprockets = if ::Rails::VERSION::MAJOR == 4
+          Sprockets.respond_to?('register_engine') ? Sprockets : app.assets
+        else
+          app.assets
+        end
 
         app.assets.register_engine '.handlebars', Ember::Handlebars::Template
         app.assets.register_engine '.hbs', Ember::Handlebars::Template
         app.assets.register_engine '.hjs', Ember::Handlebars::Template
+
+        # Add the gem's vendored ember to the end of the asset search path
+        variant = app.config.ember.variant
+
+        ember_path = File.expand_path("../../../../vendor/ember/#{variant}", __FILE__)
+        app.config.assets.paths.unshift ember_path
       end
     end
   end
